@@ -25,7 +25,7 @@ public class MyUserDatailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         log.info("登陆用户名：{}",username);
-        //根据用户名查找用户信息——从数据库中要读取出来的
+        //根据用户名查找用户信息——从数据库中要读取出来的，passwordEncoder.encode方法是加密时使用的，这里应该只读取数据库的密码
         String password = passwordEncoder.encode("123456");
         log.info("密码为：{}",password);
         return new User(username, password,true,true,true,true, AuthorityUtils.commaSeparatedStringToAuthorityList("ADMIN"));
