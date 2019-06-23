@@ -32,3 +32,8 @@
         }
     }
 ```
+### 个性化用户认证流程
+
+* 自定义登录页面  `http.formLogin().loginPage("/signIn.html)`
+* 自定义登录成功处理——实现`AuthenticationSuccessHandler`接口
+* 自定义登录失败处理

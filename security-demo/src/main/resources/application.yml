@@ -17,3 +17,8 @@ spring:
 
 server:
   port: 8080
+com:
+  hejz:
+    browser:
+      loginPage: /demo-signIn.html
+      loginType: REDIRECT

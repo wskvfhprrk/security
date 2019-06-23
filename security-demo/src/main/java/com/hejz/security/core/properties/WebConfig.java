@@ -1,4 +1,4 @@
-package com.hejz.config;
+package com.hejz.security.core.properties;
 
 import com.hejz.web.aop.TimeFilter;
 import com.hejz.web.aop.TimeInterceptor;
