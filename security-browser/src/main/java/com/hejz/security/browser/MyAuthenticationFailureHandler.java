@@ -1,6 +1,7 @@
 package com.hejz.security.browser;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hejz.security.browser.support.SimpleResponse;
 import com.hejz.security.core.properties.LoginType;
 import com.hejz.security.core.properties.SecurityProperties;
 import lombok.extern.slf4j.Slf4j;
@@ -35,7 +36,7 @@ public class MyAuthenticationFailureHandler extends SimpleUrlAuthenticationFailu
         if (LoginType.JSON.equals(securityProperties.getBrowser().getLoginType())) {
             response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
             response.setContentType("application/json;charset=utf-8");
-            response.getWriter().write(objectMapper.writeValueAsString(exception));
+            response.getWriter().write(objectMapper.writeValueAsString(new SimpleResponse(exception.getMessage())));
         } else {
             super.onAuthenticationFailure(request, response, exception);
         }

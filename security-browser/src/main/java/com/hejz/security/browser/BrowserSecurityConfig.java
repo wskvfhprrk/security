@@ -1,6 +1,7 @@
 package com.hejz.security.browser;
 
 import com.hejz.security.core.properties.SecurityProperties;
+import com.hejz.security.core.validate.code.ValidateCodeFiter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
  * @Auther: hejz
@@ -33,11 +35,16 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.formLogin()
+        ValidateCodeFiter validateCodeFiter=new ValidateCodeFiter();
+        validateCodeFiter.setAuthenticationFailureHandler(myAuthenticationFailureHandler);
+        http
+                .addFilterBefore(validateCodeFiter, UsernamePasswordAuthenticationFilter.class)  //添加验证码过滤器在UsernamePasswordAuthenticationFilter前面
+                .formLogin()
                 .loginPage("/authentication/require")
                 .loginProcessingUrl("/user/login")
                 .successHandler(myAuthenticationSuccessHandler)
                 .failureHandler(myAuthenticationFailureHandler)
+
 //        http.httpBasic()
                 .and()
                 .authorizeRequests()

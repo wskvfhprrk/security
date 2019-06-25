@@ -21,4 +21,4 @@ com:
   hejz:
     browser:
       loginPage: /demo-signIn.html
-      loginType: REDIRECT
+#      loginType: REDIRECT
