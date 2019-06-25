@@ -36,4 +36,13 @@
 
 * 自定义登录页面  `http.formLogin().loginPage("/signIn.html)`
 * 自定义登录成功处理——实现`AuthenticationSuccessHandler`接口
-* 自定义登录失败处理
+* 自定义登录失败处理——实现`AuthenticationFailureHandler`接口
+
+### 实现图形验证码功能
+
+* 开发生成图形验证码接口
+    * 根据随机数生成图片
+    * 将随机数存到session中
+    * 在将生成的图片写到接口响应中
+* 在认证流程中加入图形验证码校验
+* 生构代码

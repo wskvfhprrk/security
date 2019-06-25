@@ -8,9 +8,9 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="securitycore" />
-        <module name="securityapp" />
-        <module name="securitybrowser" />
         <module name="securitydemo" />
+        <module name="securitybrowser" />
+        <module name="securityapp" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
