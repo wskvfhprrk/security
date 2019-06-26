@@ -30,34 +30,38 @@ public class ValidateCodeFiter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-
+        //只有登陆还是post请求时才进入过滤器，
         if (StringUtils.equals("/user/login", request.getRequestURI())
                 && StringUtils.endsWithIgnoreCase(request.getMethod(), "post")) {
             try {
                 validate(new ServletWebRequest(request));
             } catch (ValidateCodeException e) {
                 authenticationFailureHandler.onAuthenticationFailure(request, response, e);
+                //认证抛异常之后不能通过此过滤器
                 return;
             }
         }
+        //无论是其它路径还是验让码验试之后者于过此过滤器，但认证抛异常之后不能过此过滤器
         filterChain.doFilter(request, response);
     }
 
     //
     private void validate(ServletWebRequest request) throws ServletRequestBindingException {
-        ImageCode imageCode = (ImageCode) sessionStrategy.getAttribute(request, ValidateCodeController.SESSION_KEY);
-        String code = ServletRequestUtils.getStringParameter(request.getRequest(), "imageCode");
+        //获取session中的验证码
+        ImageCode codeInSession = (ImageCode) sessionStrategy.getAttribute(request, ValidateCodeController.SESSION_KEY);
+        //页面传过来的验证码
+        String codeInHtml = ServletRequestUtils.getStringParameter(request.getRequest(), "imageCode");
 
-        if (StringUtils.isBlank(code))
+        if (StringUtils.isBlank(codeInHtml))
             throw new ValidateCodeException("验证码的值不能为空");
-        if (imageCode == null) {
+        if (codeInSession == null) {
             throw new ValidateCodeException("验证码不存在");
         }
-        if (imageCode.isExpired()) {
+        if (codeInSession.isExpired()) {
             sessionStrategy.removeAttribute(request, ValidateCodeController.SESSION_KEY);
             throw new ValidateCodeException("验证码已经过期");
         }
-        if (!StringUtils.endsWithIgnoreCase(imageCode.getCode(), code))
+        if (!StringUtils.endsWithIgnoreCase(codeInSession.getCode(), codeInHtml))
             throw new ValidateCodeException("验证码不匹配");
         sessionStrategy.removeAttribute(request, ValidateCodeController.SESSION_KEY);
     }

@@ -36,6 +36,7 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         ValidateCodeFiter validateCodeFiter=new ValidateCodeFiter();
+        //把其异常使用自己写的AuthenticationFailureHandler
         validateCodeFiter.setAuthenticationFailureHandler(myAuthenticationFailureHandler);
         http
                 .addFilterBefore(validateCodeFiter, UsernamePasswordAuthenticationFilter.class)  //添加验证码过滤器在UsernamePasswordAuthenticationFilter前面
@@ -44,8 +45,6 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/user/login")
                 .successHandler(myAuthenticationSuccessHandler)
                 .failureHandler(myAuthenticationFailureHandler)
-
-//        http.httpBasic()
                 .and()
                 .authorizeRequests()
                 .antMatchers("/authentication/require","/code/images",
