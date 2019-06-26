@@ -52,3 +52,7 @@
         * 在`BrowserSecurityConfig`中把验证码过滤器放在`UsernamePasswordAuthenticationFilter`前，同时把
         过滤器设置使用`myAuthenticationFailureHandler`进行拦截
 * 生构代码
+    * 验证基本参数可以配置（大小，长度，有效时间可配），要做成三级配置：
+    ``` 默认配置（写在croe）-->应用级配置（写在demo中）-->请求级配置（配置值在调用接口时传递）```
+    * 拦截的接口可以配置——`/user/login`可以配置，不同应用需要验证码
+    * 验证码的生成逻辑可以配置

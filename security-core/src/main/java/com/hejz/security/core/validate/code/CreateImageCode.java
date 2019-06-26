@@ -1,8 +1,11 @@
 package com.hejz.security.core.validate.code;
 
+import com.hejz.security.core.properties.SecurityProperties;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -15,22 +18,23 @@ import java.util.Random;
  */
 public class CreateImageCode {
 
+
     /**
      * 图片的宽度
      */
-    private int width = 160;
+    private int width ;
     /**
      * 图片的高度
      */
-    private int height = 40;
+    private int height ;
     /**
      * 验证码字符个数
      */
-    private int codeCount = 4;
+    private int codeCount ;
     /**
      * 验证码干扰线数
      */
-    private int lineCount = 20;
+    private int lineCount;
     /**
      * 验证码
      */
@@ -38,22 +42,7 @@ public class CreateImageCode {
 
     private BufferedImage buffImg = null;
     Random random = new Random();
-
     public CreateImageCode() {
-        createImage();
-    }
-
-    public CreateImageCode(int width, int height) {
-        this.width = width;
-        this.height = height;
-        createImage();
-    }
-
-    public CreateImageCode(int width, int height, int codeCount) {
-        this.width = width;
-        this.height = height;
-        this.codeCount = codeCount;
-        createImage();
     }
 
     public CreateImageCode(int width, int height, int codeCount, int lineCount) {
@@ -63,20 +52,6 @@ public class CreateImageCode {
         this.lineCount = lineCount;
         createImage();
     }
-
-    public CreateImageCode(HttpServletRequest request) {
-        if (request.getAttribute("width") != null)
-            this.width = (int) request.getAttribute("width");
-        if (request.getAttribute("height") != null)
-            this.height = (int) request.getAttribute("height");
-        if (request.getAttribute("codeCount") != null)
-            this.codeCount = (int) request.getAttribute("codeCount");
-        if (request.getAttribute("lineCount") != null)
-            this.lineCount = (int) request.getAttribute("lineCount");
-        this.code = randomStr(codeCount);
-        createImage();
-    }
-
 
     /**
      * 生成图片

@@ -22,3 +22,7 @@ com:
     browser:
       loginPage: /demo-signIn.html
 #      loginType: REDIRECT
+    code:
+      image:
+        width: 100
+        codeCount: 6
