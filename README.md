@@ -51,8 +51,10 @@
         `AuthenticationException`，实现其父类构造方法即可
         * 在`BrowserSecurityConfig`中把验证码过滤器放在`UsernamePasswordAuthenticationFilter`前，同时把
         过滤器设置使用`myAuthenticationFailureHandler`进行拦截
-* 生构代码
+* 重构代码
     * 验证基本参数可以配置（大小，长度，有效时间可配），要做成三级配置：
     ``` 默认配置（写在croe）-->应用级配置（写在demo中）-->请求级配置（配置值在调用接口时传递）```
     * 拦截的接口可以配置——`/user/login`可以配置，不同应用需要验证码
-    * 验证码的生成逻辑可以配置
+    * 验证码的生成逻辑可以配置——`以增量方式去适应变化 `（当逻辑更改时，原来代码不能适应，不能更改原来代码，
+    而是增加一些代码实现新的逻辑即可）。这里注意到接口实现类不直接实用`@Compent`注解，而是使用加载Bean方式，
+    使用` @ConditionalOnMissingBean(name = "imageCodeGenerator")`加载bean方式，方便`以增量方式去适应变化 `。

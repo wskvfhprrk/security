@@ -38,6 +38,8 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
         ValidateCodeFiter validateCodeFiter=new ValidateCodeFiter();
         //把其异常使用自己写的AuthenticationFailureHandler
         validateCodeFiter.setAuthenticationFailureHandler(myAuthenticationFailureHandler);
+        validateCodeFiter.setSecurityProperties(securityProperties);
+        validateCodeFiter.afterPropertiesSet();
         http
                 .addFilterBefore(validateCodeFiter, UsernamePasswordAuthenticationFilter.class)  //添加验证码过滤器在UsernamePasswordAuthenticationFilter前面
                 .formLogin()

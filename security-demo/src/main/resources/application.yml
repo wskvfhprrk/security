@@ -26,3 +26,4 @@ com:
       image:
         width: 100
         codeCount: 6
+        url: /user/*
