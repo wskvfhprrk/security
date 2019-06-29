@@ -1,7 +1,8 @@
-package com.hejz.security.core.validate.code;
+package com.hejz.security.core.validate.code.image;
 
 import com.hejz.security.core.properties.ImageCodeProperties;
 import com.hejz.security.core.properties.SecurityProperties;
+import com.hejz.security.core.validate.code.ValidateCodeGenerator;
 import lombok.Data;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.context.request.ServletWebRequest;
@@ -19,7 +20,7 @@ import java.util.Random;
  * @Date: 2019/6/28 8:00
  */
 @Data
-public class ImageCodeGenerator implements ValidateCodeGenertor {
+public class ImageCodeGenerator implements ValidateCodeGenerator {
 
     private SecurityProperties securityProperties;
 

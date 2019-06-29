@@ -1,8 +1,7 @@
-package com.hejz.security.core.validate.code;
+package com.hejz.security.core.validate.code.sms;
 
 import lombok.Data;
 
-import java.awt.image.BufferedImage;
 import java.time.LocalDateTime;
 
 /**
@@ -11,19 +10,16 @@ import java.time.LocalDateTime;
  * @Date: 2019/6/25 8:37
  */
 @Data
-public class ImageCode {
-    private BufferedImage image;
+public class ValidateCode {
     private String code;
     private LocalDateTime expireTime;
 
-    public ImageCode(BufferedImage image, String code, int expireTime) {
-        this.image = image;
+    public ValidateCode(String code, int expireIn) {
         this.code = code;
-        this.expireTime = LocalDateTime.now().plusSeconds(expireTime);
+        this.expireTime = LocalDateTime.now().plusSeconds(expireIn);
     }
 
-    public ImageCode(BufferedImage image, String code, LocalDateTime expireTime) {
-        this.image = image;
+    public ValidateCode(String code, LocalDateTime expireTime) {
         this.code = code;
         this.expireTime = expireTime;
     }
@@ -31,6 +27,8 @@ public class ImageCode {
     public boolean isExpired() {
         return LocalDateTime.now().isAfter(expireTime);
     }
+
+
 
 
 //    public static void main(String[] args) {

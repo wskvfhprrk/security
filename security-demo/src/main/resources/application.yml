@@ -24,6 +24,6 @@ com:
 #      loginType: REDIRECT
     code:
       image:
-        width: 100
-        codeCount: 6
+#        width: 100
+#        codeCount: 6
         url: /user/*
