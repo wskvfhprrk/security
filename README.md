@@ -58,3 +58,11 @@
     * 验证码的生成逻辑可以配置——`以增量方式去适应变化 `（当逻辑更改时，原来代码不能适应，不能更改原来代码，
     而是增加一些代码实现新的逻辑即可）。这里注意到接口实现类不直接实用`@Compent`注解，而是使用加载Bean方式，
     使用` @ConditionalOnMissingBean(name = "imageCodeGenerator")`加载bean方式，方便`以增量方式去适应变化 `。
+### 实现“记住我”功能
+* 记住我功能基本原理
+    ![images](image/记住我原理图.png)
+    
+    ![images](image/springSecurity基本原理图.png)
+    
+* 记住我功能具体实现
+* 记住我功能SpringSecurity源码解析
