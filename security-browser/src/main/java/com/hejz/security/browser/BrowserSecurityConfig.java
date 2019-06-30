@@ -1,6 +1,8 @@
 package com.hejz.security.browser;
 
+import com.hejz.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
 import com.hejz.security.core.properties.SecurityProperties;
+import com.hejz.security.core.validate.code.SmsCodeFilter;
 import com.hejz.security.core.validate.code.ValidateCodeFiter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -10,7 +12,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
@@ -36,6 +37,8 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
     private DataSource dataSource;
     @Autowired
     private UserDetailsService userDetailsService;
+    @Autowired
+    private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -58,11 +61,18 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
         validateCodeFiter.setAuthenticationFailureHandler(myAuthenticationFailureHandler);
         validateCodeFiter.setSecurityProperties(securityProperties);
         validateCodeFiter.afterPropertiesSet();
+
+        SmsCodeFilter smsCodeFilter = new SmsCodeFilter();
+        //把其异常使用自己写的AuthenticationFailureHandler
+        smsCodeFilter.setAuthenticationFailureHandler(myAuthenticationFailureHandler);
+        smsCodeFilter.setSecurityProperties(securityProperties);
+        smsCodeFilter.afterPropertiesSet();
         http
+                .addFilterBefore(smsCodeFilter, UsernamePasswordAuthenticationFilter.class)  //添加验证码过滤器在UsernamePasswordAuthenticationFilter前面
                 .addFilterBefore(validateCodeFiter, UsernamePasswordAuthenticationFilter.class)  //添加验证码过滤器在UsernamePasswordAuthenticationFilter前面
                 .formLogin()
                 .loginPage("/authentication/require")
-                .loginProcessingUrl("/user/login")
+                .loginProcessingUrl("/authentication/login")
                 .successHandler(myAuthenticationSuccessHandler)
                 .failureHandler(myAuthenticationFailureHandler)
                 .and()
@@ -72,12 +82,13 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
                 .userDetailsService(userDetailsService)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/authentication/require", "/code/*",
+                .antMatchers("/authentication/require", "/authentication/mobile", "/code/*",
                         securityProperties.getBrowser().getLoginPage())
                 .permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
-                .csrf().disable();
+                .csrf().disable()
+                .apply(smsCodeAuthenticationSecurityConfig);
     }
 }

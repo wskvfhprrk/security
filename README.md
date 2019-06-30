@@ -68,6 +68,12 @@
 * 记住我功能SpringSecurity源码解析
 ### 实现短信验证码登陆
 * 开发短信验证码接口
+![images](image/短信验证码重构.png)
 * 校验短信验证码并登陆
+    
+   ![image](image/短信登陆请求验证.png)
 * 重构代码
-  ![images](image/短信验证码重构.png)
+  ![images](image/重构短信验证码2.png)
+### 小结
+![images](image/小结——基于表单认证.png)
+  
