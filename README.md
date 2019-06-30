@@ -76,4 +76,25 @@
   ![images](image/重构短信验证码2.png)
 ### 小结
 ![images](image/小结——基于表单认证.png)
+
+## springSocial开发第三方登陆
+
+### OAuth协议简介
+#### Oauth协议流程
+![images](image/Oauth协议流程.png)
+#### OAuth协议中的授权模式(流程中第二步)
+* 授权码模式（authorization code）
+![images](image/授权码模式.png)
+* 简化模式（implicit）——直接返回第三方应用是令牌，不需要第三方应用再拿授权码换令牌
+* 密码模式（resource owner password credentials）
+* 客户端模式（client credentials）
+### springSocial基本原理
+#### 逻辑流程图
+![images](image/springSocial基本原理.png)
+#### springSocial在springSeurity过滤器位置
+![images](image/springSocial在springSeurity过滤器位置.png)
+#### springSocial代码流程
+![images](image/springSocial代码流程.png)
+
+
   
